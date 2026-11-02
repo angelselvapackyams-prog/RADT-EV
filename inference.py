@@ -35,7 +35,6 @@ if SCRIPT_DIR not in sys.path:
     sys.path.insert(0, SCRIPT_DIR)
 
 CHECKPOINT_DIR = os.path.join(SCRIPT_DIR, "checkpoints")
-FIGURES_DIR = os.path.join(SCRIPT_DIR, "figures")
 BENCHMARK_CKPT_PATH = os.path.join(CHECKPOINT_DIR, "benchmark_results.pt")
 
 if not os.path.exists(BENCHMARK_CKPT_PATH):
@@ -66,14 +65,8 @@ def print_header(title):
     print(f" {title:^83} ")
     print("="*85)
 
-def show_plot_popup(fig_title, filename=None, no_gui=False):
+def show_plot_popup(fig_title, no_gui=False):
     plt.tight_layout()
-    if filename:
-        os.makedirs(FIGURES_DIR, exist_ok=True)
-        save_path = os.path.join(FIGURES_DIR, filename)
-        plt.savefig(save_path, dpi=300, bbox_inches='tight')
-        print(f"  [Figure saved to: {os.path.relpath(save_path, SCRIPT_DIR)}]")
-
     if no_gui:
         plt.close()
         return
@@ -160,7 +153,7 @@ def run_ablation_table10_and_figure2(sampled_t10, no_gui=False):
     plt.grid(axis='y', linestyle='--', alpha=0.5)
     plt.legend(fontsize=10)
     
-    show_plot_popup('Figure 2: Ablation Study Bar Chart', filename='figure2_ablation_study.png', no_gui=no_gui)
+    show_plot_popup('Figure 2: Ablation Study Bar Chart', no_gui=no_gui)
 
 def run_reliability_over_time_figure3(sampled_t9, no_gui=False):
     print_header("TEST Scenario S7: Infrastructure Reliability Loss – RPS Trajectory Over 24 Hours")
@@ -189,7 +182,7 @@ def run_reliability_over_time_figure3(sampled_t9, no_gui=False):
     plt.grid(True, linestyle='--', alpha=0.5)
     plt.legend(fontsize=11)
 
-    show_plot_popup('Figure 3: 24-Hour Reliability Preservation Plot', filename='figure3_reliability_over_time.png', no_gui=no_gui)
+    show_plot_popup('Figure 3: 24-Hour Reliability Preservation Plot', no_gui=no_gui)
 
 def run_cascading_suppression_figure4(sampled_t9, no_gui=False):
     print_header("TEST Scenario S6 & S7: Cascading Failure Suppression & Diffusion Reasoning")
@@ -252,7 +245,7 @@ def run_cascading_suppression_figure4(sampled_t9, no_gui=False):
 
     plt.suptitle('Figure 4: Cascading-Failure Suppression Visualization', fontsize=14, fontweight='bold')
     
-    show_plot_popup('Figure 4: Cascading Failure Suppression Visualization', filename='figure4_cascading_suppression.png', no_gui=no_gui)
+    show_plot_popup('Figure 4: Cascading Failure Suppression Visualization', no_gui=no_gui)
 
 def run_cross_dataset_generalization_figure5(sampled_t9, no_gui=False):
     print_header("TEST Scenario S9: Cross-Dataset Generalization Analysis")
@@ -279,7 +272,7 @@ def run_cross_dataset_generalization_figure5(sampled_t9, no_gui=False):
     plt.grid(axis='y', linestyle='--', alpha=0.5)
     plt.legend(fontsize=11)
 
-    show_plot_popup('Figure 5: Cross-Dataset Generalization Bar Chart', filename='figure5_cross_dataset.png', no_gui=no_gui)
+    show_plot_popup('Figure 5: Cross-Dataset Generalization Bar Chart', no_gui=no_gui)
 
 def run_sensitivity_analysis_figure6(sampled_t9, no_gui=False):
     print_header("RAMO Objective Weight Sensitivity Analysis (Figure 6 & Table 4)")
@@ -300,7 +293,7 @@ def run_sensitivity_analysis_figure6(sampled_t9, no_gui=False):
     plt.grid(True, linestyle='--', alpha=0.5)
     plt.legend(fontsize=11)
 
-    show_plot_popup('Figure 6: RAMO Sensitivity Pareto Curves', filename='figure6_sensitivity_analysis.png', no_gui=no_gui)
+    show_plot_popup('Figure 6: RAMO Sensitivity Pareto Curves', no_gui=no_gui)
 
 def run_robustness_table11():
     print_header("TABLE 11: Robustness Under Adversarial/Extreme Conditions")
@@ -462,13 +455,12 @@ def run_all_inference(args):
     run_robustness_table11()
     
     print(f"\n[INFO] Inference and evaluation suite completed successfully.")
-    print(f"[INFO] High-resolution figures saved to: {os.path.relpath(FIGURES_DIR, SCRIPT_DIR)}/")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="SmartCharge-Net+ Inference & Evaluation Suite")
     parser.add_argument('--demo', action='store_true', help='Run fast demo mode')
     parser.add_argument('--debug', action='store_true', help='Print intermediate tensor outputs for inspection')
-    parser.add_argument('--no-gui', action='store_true', help='Save all figures to disk without opening GUI popups (ideal for CI / headless servers)')
+    parser.add_argument('--no-gui', action='store_true', help='Skip opening GUI plot popups (ideal for CI / headless servers)')
     parser.add_argument('--seed', type=int, default=42, help='Random seed for deterministic reproducibility (default: 42)')
     args = parser.parse_args()
     run_all_inference(args)

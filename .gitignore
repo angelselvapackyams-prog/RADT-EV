@@ -47,7 +47,9 @@ desktop.ini
 # Large raw datasets (>100MB exceeds GitHub limits; generated via data_downloader.py)
 data/raw_kaggle_datasets/
 
+# Exclude generated figures
+figures/
+
 # Logs and runtime artifacts
 *.log
 *.tmp
-

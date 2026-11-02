@@ -7,7 +7,7 @@
 
 Official PyTorch implementation, training scripts, baseline models, pre-trained checkpoints, and evaluation suite for **SmartCharge-Net+**.
 
-This repository is designed for **immediate, zero-dependency reproducibility**: all pre-processed benchmark test sets, evaluation checkpoints, and pre-trained weights are bundled so that you can reproduce all tables (Tables 9, 10, 11) and figures (Figures 2–6) in seconds without downloading external gigabyte datasets.
+This repository is designed for **immediate, zero-dependency reproducibility**: all pre-processed benchmark test sets, evaluation checkpoints, and pre-trained weights are bundled so that you can reproduce all tables (Tables 9, 10, 11) and interactive figures (Figures 2–6) in seconds without downloading external gigabyte datasets.
 
 ---
 
@@ -61,12 +61,6 @@ The architecture comprises five synergistic modules:
 │   ├── reliability_dataset.csv   # Unified multi-physics reliability dataset (15k samples)
 │   └── preprocessed/
 │       └── preprocessed_data.pt  # PyTorch normalized Train (70%), Val (15%), Test (15%) splits
-├── figures/                      # Auto-generated publication-quality figures (300 DPI)
-│   ├── figure2_ablation_study.png
-│   ├── figure3_reliability_over_time.png
-│   ├── figure4_cascading_suppression.png
-│   ├── figure5_cross_dataset.png
-│   └── figure6_sensitivity_analysis.png
 ├── models/                       # Core SmartCharge-Net+ Model Architecture
 │   ├── arfl.py                   # Adaptive Real-time Feedback Learner
 │   ├── crig.py                   # Cascading Risk Immune Graph (GNN)
@@ -94,11 +88,9 @@ Clone the repository and run the fast demonstration mode:
 # 1. Install dependencies
 pip install -r requirements.txt
 
-# 2. Run instant replication (prints Tables 9, 10, 11 & outputs Figures 2-6)
-python inference.py --demo --no-gui
+# 2. Run instant replication (prints Tables 9, 10, 11 & displays Figures 2-6)
+python inference.py --demo
 ```
-
-All 5 figures will be automatically rendered at 300 DPI and saved into the `./figures/` directory.
 
 ---
 
@@ -138,9 +130,9 @@ The main evaluation entrypoint is `inference.py`. It runs the full statistical s
 | Command | Description |
 |---|---|
 | `python inference.py --demo` | Fast demo with interactive figure popup windows |
-| `python inference.py --demo --no-gui` | Fast demo saving figures directly to `./figures/` (ideal for remote servers / CI) |
+| `python inference.py --demo --no-gui` | Fast demo in terminal mode (skips GUI popups for headless servers / CI) |
 | `python inference.py` | Full forward pass on test set across 10 seeds + interactive plots |
-| `python inference.py --no-gui` | Full forward pass on test set saving all figures to disk |
+| `python inference.py --no-gui` | Full forward pass on test set in headless terminal mode |
 | `python inference.py --debug` | Displays intermediate MRDT DNA vectors and CRIG attention weights |
 | `python inference.py --seed 123` | Sets custom seed for deterministic evaluation |
 
@@ -150,12 +142,12 @@ When executed, `inference.py` generates:
    - **Table 9**: Main results comparison across 5 reliability metrics against 6 baselines.
    - **Table 10**: Component ablation study with statistical significance ($p$-values).
    - **Table 11**: Extreme adversarial conditions (Battery Stress S5 & Mixed Extreme S8).
-2. **High-Resolution Figures** in `./figures/`:
-   - `figure2_ablation_study.png`: Bar chart of RPS, BHSI, RIE across ablations.
-   - `figure3_reliability_over_time.png`: 24-hour RPS trajectory during infrastructure loss event.
-   - `figure4_cascading_suppression.png`: Multi-physics IEEE 123-bus feeder graph & failure suppression curve.
-   - `figure5_cross_dataset.png`: Cross-dataset transfer generalization performance.
-   - `figure6_sensitivity_analysis.png`: Pareto sensitivity trade-off curves for objective weight $w_1$.
+2. **Interactive Figure Visualizations**:
+   - Figure 2: Bar chart of RPS, BHSI, RIE across ablations.
+   - Figure 3: 24-hour RPS trajectory during infrastructure loss event.
+   - Figure 4: Multi-physics IEEE 123-bus feeder graph & failure suppression curve.
+   - Figure 5: Cross-dataset transfer generalization performance.
+   - Figure 6: Pareto sensitivity trade-off curves for objective weight $w_1$.
 
 ---
 
@@ -237,9 +229,9 @@ To upload this repository to GitHub cleanly:
 ### Step 1: Create a New GitHub Repository
 1. Log in to [GitHub](https://github.com/).
 2. Click **New Repository** (or visit `https://github.com/new`).
-3. Name your repository (e.g., `SmartCharge-Net-Plus`).
+3. Name your repository (e.g., `RADT-EV`).
 4. Keep it **Public** (or Private) and leave *"Initialize this repository with a README"* **unchecked** (we already provide one).
-5. Copy your repository's remote URL (e.g., `https://github.com/<your-username>/SmartCharge-Net-Plus.git`).
+5. Copy your repository's remote URL (e.g., `https://github.com/<your-username>/RADT-EV.git`).
 
 ### Step 2: Initialize Git and Commit
 Open PowerShell or your terminal inside this directory (`c:\Users\resea\Downloads\Angel selvam\implementation`):
@@ -261,7 +253,7 @@ git commit -m "feat: complete reproducible SmartCharge-Net+ implementation and e
 git branch -M main
 
 # Add your GitHub repository remote
-git remote add origin https://github.com/<your-username>/SmartCharge-Net-Plus.git
+git remote add origin https://github.com/<your-username>/RADT-EV.git
 
 # Push code to GitHub
 git push -u origin main
